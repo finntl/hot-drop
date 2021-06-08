@@ -79,11 +79,14 @@ export default class DragDrop {
     document.querySelectorAll(".dnd-hovered").forEach((element: Element) => {
       element.classList.remove("dnd-hovered");
     });
-    const target = e.target as HTMLElement;
+    let target = e.target as HTMLElement;
     if (this.dragging) {
       return;
     }
     if (target.matches(this.dragSelector)) {
+      target.classList.add("dnd-hovered");
+    } else if (target.closest(this.dragSelector)) {
+      target = target.closest(this.dragSelector);
       target.classList.add("dnd-hovered");
     }
 
@@ -91,7 +94,13 @@ export default class DragDrop {
   };
 
   dragStart = (e: MouseEvent | positionData): void => {
-    const target = e.target as HTMLElement;
+    let target = e.target as HTMLElement;
+    if (
+      !target.matches(this.dragSelector) &&
+      target.closest(this.dragSelector)
+    ) {
+      target = target.closest(this.dragSelector);
+    }
     if (
       target.matches("body") ||
       target.querySelector("body") ||

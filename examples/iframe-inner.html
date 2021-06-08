@@ -54,6 +54,9 @@
           if (!data.valid) {
             newElement.remove();
           }
+          document.querySelectorAll(".dnd-dragging").forEach((element) => {
+            element.classList.remove("dnd-dragging");
+          });
         }
       });
     </script>
