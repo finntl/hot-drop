@@ -2,7 +2,7 @@
 
 Hot-drop mimics the HTML5 drag API, but with a few important differences.
 Only minimal data is used from the original DOM events, meaning it is a lot simpler to fire artificial events when you need to simulate a behaviour.
-Additionally, by storing writable artifacts on the instance, you can easily "hot-swap" and modify any elements used in the drag operation, meaning you can easily modufy the default behaviour.
+Additionally, by storing writable artifacts on the instance, you can easily "hot-swap" and modify any elements used in the drag operation, meaning you can easily modify the default behaviour.
 
 ## Quickstart
 
