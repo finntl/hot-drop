@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "prepare": "cp src/default.css dist/ && cp src/base.css dist/ && npx tsc",
+    "prepare": "npx tsc && cp src/default.css dist/ && cp src/base.css dist/",
     "demo": "servor . ./examples/index.html"
   },
   "keywords": [
