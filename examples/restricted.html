@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Context specific drop example</title>
+
+    <link rel="stylesheet" href="../dist/base.css" />
+    <link rel="stylesheet" href="../dist/default.css" />
+    <style>
+      .container {
+        display: flex;
+        flex-direction: row;
+      }
+      .draggable {
+        border-radius: 5px;
+        height: 100px;
+        width: 200px;
+        background-color: blue;
+      }
+      .draggable-red {
+        background-color: red;
+      }
+      .droppable {
+        flex-grow: 1;
+        margin: 8rem;
+        border: 1px solid #eee;
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import DragDrop from "../dist/DragDrop.js";
+      const dnd = new DragDrop(".draggable", ".droppable");
+      dnd.activate();
+      dnd.on("start", (element) => {
+        if (element.classList.contains("draggable-red")) {
+          dnd.dropSelector = ".droppable:not(.blue-only)";
+        }
+      });
+      dnd.on("end", (element) => {
+        dnd.dropSelector = ".droppable";
+      });
+    </script>
+    <div class="container">
+      <div class="droppable">
+        <div class="draggable"></div>
+        <div class="draggable draggable-red"></div>
+      </div>
+      <div class="droppable blue-only">
+        <div>I only like blue rectangles</div>
+      </div>
+      <div class="droppable">
+        <div>All rectangles welcome here!</div>
+      </div>
+    </div>
+  </body>
+</html>

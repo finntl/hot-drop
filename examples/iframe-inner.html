@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="../dist/base.css" />
+    <link rel="stylesheet" href="../dist/default.css" />
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 90vh;
+        width: 90vw;
+      }
+      .draggable {
+        border-radius: 5px;
+        height: 100px;
+        width: 200px;
+        background-color: blue;
+        margin: 2px;
+      }
+      .dnd-drag-ghost {
+        display: none;
+      }
+      body {
+        background-color: #5a2525;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import DragDrop from "../dist/DragDrop.js";
+      const dnd = new DragDrop(".draggable", ".container");
+      dnd.activate();
+      let newElement = null;
+      window.addEventListener("message", ({ data }) => {
+        if (data.type === "drag-start") {
+          newElement = document.createElement("div");
+          newElement.innerHTML = data.markup;
+          newElement = newElement.children[0];
+          dnd.setHoverState({ target: newElement });
+          dnd.dragStart({ target: newElement });
+        }
+        if (data.type === "mouse-update") {
+          const target =
+            document.elementFromPoint(data.x, data.y) ||
+            document.createElement("div");
+          dnd.dragMove({ pageX: data.x, pageY: data.y, target });
+        }
+        if (data.type === "drag-end") {
+          dnd.dragEnd({ target: null });
+          if (!data.valid) {
+            newElement.remove();
+          }
+        }
+      });
+    </script>
+    <div class="container"></div>
+  </body>
+</html>

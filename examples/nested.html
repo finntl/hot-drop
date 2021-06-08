@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Nested switching example</title>
+
+    <link rel="stylesheet" href="../dist/base.css" />
+    <link rel="stylesheet" href="../dist/default.css" />
+    <style>
+      .container {
+        display: flex;
+        flex-direction: row;
+      }
+      .draggable {
+        border-radius: 5px;
+        height: 100px;
+        width: 200px;
+        background-color: blue;
+      }
+      .draggable-inner {
+        height: 98px;
+        width: 198px;
+        background-color: red;
+      }
+      .drop-container {
+        flex-grow: 1;
+        margin: 8rem;
+        border: 1px solid #eee;
+        border-radius: 20px;
+      }
+      .droppable {
+        min-height: 50px;
+        min-width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import DragDrop from "../dist/DragDrop.js";
+      const dnd = new DragDrop(".draggable", ".droppable");
+      dnd.activate();
+      document.addEventListener("keyup", (e) => {
+        if (!dnd.dragging) return;
+        if (e.key === "ArrowUp") jumpUp();
+        if (e.key === "ArrowDown") jumpDown();
+      });
+      const jumpUp = () => {
+        const closest = dnd.currentDragTarget.parentNode.closest(".draggable");
+        if (!closest) return;
+        dnd.currentDragTarget = closest;
+        closest.classList.add("dnd-dragging");
+      };
+      const jumpDown = () => {
+        const closest = dnd.currentDragTarget.querySelector(".draggable");
+        if (!closest) return;
+        dnd.currentDragTarget.classList.remove("dnd-dragging");
+        dnd.currentDragTarget = closest;
+        closest.classList.add("dnd-dragging");
+      };
+    </script>
+    <h2>
+      Press the down or up key while dragging to switch between nested draggable
+      items
+    </h2>
+    <div class="container">
+      <div class="droppable drop-container">
+        <div class="draggable">
+          <div class="droppable">
+            <div class="draggable draggable-inner"></div>
+          </div>
+        </div>
+      </div>
+      <div class="droppable drop-container"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+.dnd-hovered {
+  outline: 1px dashed white;
+  cursor: pointer !important;
+}
+
+.dnd-dragging {
+  opacity: 0.5;
+}
+
+.dnd-drag-ghost {
+  height: 20px;
+  width: 40px;
+  background-color: grey;
+  border-radius: 5px;
+}
+
+.dnd-placeholder {
+  outline: 1px dashed black;
+}

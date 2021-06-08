@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Drag to iframe example</title>
+
+    <link rel="stylesheet" href="../dist/base.css" />
+    <link rel="stylesheet" href="../dist/default.css" />
+    <style>
+      .container {
+        display: flex;
+        flex-direction: row;
+      }
+      .draggables > .draggable {
+        margin: 10px;
+      }
+      .draggable {
+        border-radius: 5px;
+        height: 100px;
+        width: 200px;
+        background-color: blue;
+      }
+      iframe {
+        border: 1px solid grey;
+        border-radius: 10px;
+        min-height: 90vh;
+        width: 100%;
+      }
+      .iframe-controller {
+        flex-grow: 1;
+        position: relative;
+      }
+      .iframe-cover {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import DragDrop from "../dist/DragDrop.js";
+      const dnd = new DragDrop(".draggable", null);
+      let frameCover = null;
+      dnd.activate();
+      const updateMousePosition = (e) => {
+        if (e.target.matches(".iframe-cover")) {
+          const x =
+            e.x - document.querySelector("iframe").getBoundingClientRect().x;
+          const y =
+            e.y - document.querySelector("iframe").getBoundingClientRect().y;
+          document
+            .querySelector("iframe")
+            .contentWindow.postMessage({ type: "mouse-update", x, y }, "*");
+        }
+      };
+      dnd.on("start", () => {
+        frameCover = document.createElement("div");
+        frameCover.classList.add("iframe-cover");
+        document.addEventListener("mousemove", updateMousePosition);
+        document.querySelector(".iframe-controller").appendChild(frameCover);
+        document
+          .querySelector("iframe")
+          .contentWindow.postMessage(
+            { type: "drag-start", markup: '<div class="draggable"></div>' },
+            "*"
+          );
+      });
+      dnd.on("end", (target) => {
+        frameCover.remove();
+        document.removeEventListener("mousemove", updateMousePosition);
+        frameCover = null;
+        const valid = target.matches(".iframe-cover");
+        document
+          .querySelector("iframe")
+          .contentWindow.postMessage({ type: "drag-end", valid }, "*");
+      });
+    </script>
+    <div class="container">
+      <div class="draggables">
+        <div class="draggable"></div>
+        <div class="draggable"></div>
+        <div class="draggable"></div>
+        <div class="draggable"></div>
+        <div class="draggable"></div>
+      </div>
+      <div class="iframe-controller">
+        <iframe src="./iframe-inner.html"></iframe>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+.dnd-draggable {
+  pointer-events: all !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  user-drag: none !important;
+  -webkit-user-drag: none !important;
+  outline: none;
+}
+
+.dnd-drag-ghost {
+  pointer-events: none !important;
+  position: fixed;
+}
+
+.dnd-orientation-finder {
+  height: 0;
+  width: 0;
+}
+
+.dnd-placeholder {
+  height: 0;
+  width: 0;
+  position: absolute;
+}

@@ -1,0 +1,27 @@
+{
+  "name": "hot-drop",
+  "version": "0.1.0",
+  "description": "The most flexible drag and drop engine you've ever met, and it's dependency free!",
+  "main": "dist/DragDrop.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "prepare": "cp src/default.css dist/ && cp src/base.css dist/ && npx tsc",
+    "demo": "servor . ./examples/index.html"
+  },
+  "keywords": [
+    "drag-drop"
+  ],
+  "author": "Finn T-L",
+  "license": "MIT",
+  "devDependencies": {
+    "servor": "^4.0.2",
+    "typescript": "^4.2.4"
+  },
+  "homepage": "https://github.com/finntl/hot-drop#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/finntl/hot-drop"
+  }
+}
